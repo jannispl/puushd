@@ -47,6 +47,7 @@ private:
 
 	sqlite3 *m_database;
 
+	std::random_device m_randomDevice;
 	std::default_random_engine m_randomGenerator;
 	std::uniform_int_distribution<int> m_randomDistribution;
 };

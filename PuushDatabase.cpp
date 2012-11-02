@@ -4,9 +4,8 @@
 #include <iomanip>
 
 PuushDatabase::PuushDatabase()
-	: m_database(NULL), m_randomDistribution(0, (10 + 26 + 26) - 1)
+	: m_database(NULL), m_randomDistribution(0, (10 + 26 + 26) - 1), m_randomGenerator(m_randomDevice())
 {
-	m_randomGenerator.seed((unsigned long) time(NULL));
 }
 
 PuushDatabase::~PuushDatabase()

@@ -10,12 +10,11 @@
 	"<input type=\"submit\" value=\"Upload\" />" \
 	"</form></body></html>"
 
-#define PUUSH_URL "http://localhost:1200/"
+#define PUUSH_URL "http://www.mavedev.com:1200/"
 
 PuushServer::PuushServer(PuushDatabase *database)
-	: m_mongooseContext(NULL), m_randomDistribution(0, (10 + 26 + 26) - 1), m_database(database)
+	: m_mongooseContext(NULL), m_randomDistribution(0, (10 + 26 + 26) - 1), m_randomGenerator(m_randomDevice()), m_database(database)
 {
-	m_randomGenerator.seed((unsigned long) time(NULL));
 }
 
 PuushServer::~PuushServer()
