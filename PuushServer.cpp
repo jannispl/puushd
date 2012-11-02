@@ -217,9 +217,9 @@ void PuushServer::handleFileUpload(mg_connection *conn, const mg_request_info *i
 		}
 #else
 		struct stat st;
-		if (stat("files", &st) != 0 || (myStat.st_mode) & S_IFMT) != S_IFDIR))
+		if (stat("files", &st) != 0 || (st.st_mode & S_IFMT) != S_IFDIR)
 		{
-			mkdir("files");
+			mkdir("files", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 		}
 #endif
 
