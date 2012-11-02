@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Configuration.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="md5.c" />
+    <ClCompile Include="mongoose.c" />
+    <ClCompile Include="PuushDatabase.cpp" />
+    <ClCompile Include="PuushServer.cpp" />
+    <ClCompile Include="sqlite3.c" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="MPFDParser\Exception.cpp">
+      <Filter>MPFDParser</Filter>
+    </ClCompile>
+    <ClCompile Include="MPFDParser\Field.cpp">
+      <Filter>MPFDParser</Filter>
+    </ClCompile>
+    <ClCompile Include="MPFDParser\Parser.cpp">
+      <Filter>MPFDParser</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Configuration.h" />
+    <ClInclude Include="md5.h" />
+    <ClInclude Include="mongoose.h" />
+    <ClInclude Include="PuushDatabase.h" />
+    <ClInclude Include="PuushServer.h" />
+    <ClInclude Include="sqlite3.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="MPFDParser\Exception.h">
+      <Filter>MPFDParser</Filter>
+    </ClInclude>
+    <ClInclude Include="MPFDParser\Field.h">
+      <Filter>MPFDParser</Filter>
+    </ClInclude>
+    <ClInclude Include="MPFDParser\Parser.h">
+      <Filter>MPFDParser</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="MPFDParser">
+      <UniqueIdentifier>{2ed00a4b-4c57-4858-a8f9-a0da5ba600ee}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
