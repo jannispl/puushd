@@ -18,6 +18,10 @@
 #include "mongoose.h"
 #include "sqlite3.h"
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 #ifdef __GNUC__
 #define GCC_VERSION (__GNUC__ * 10000 \
 							+ __GNUC_MINOR__ * 100 \

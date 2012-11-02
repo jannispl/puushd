@@ -2,6 +2,7 @@
 #include "PuushDatabase.h"
 #include "md5.h"
 #include <iomanip>
+#include <fstream>
 
 PuushDatabase::PuushDatabase()
 	: m_database(NULL), m_randomDistribution(0, (10 + 26 + 26) - 1), m_randomGenerator(m_randomDevice())
@@ -110,8 +111,9 @@ std::string PuushDatabase::addFile(const char *apiKey, const char *filename, con
 
 	int userId = atoi(field.value.c_str());
 
-	FILE *f = fopen(path, "rb");
-	if (f == NULL)
+	std::ifstream is;
+	is.open(path, std::ios_base::in | std::ios_base::binary);
+	if (is.fail())
 	{
 		std::cerr << "Unable to open " << path << " for reading" << std::endl;
 		return "";
@@ -120,13 +122,14 @@ std::string PuushDatabase::addFile(const char *apiKey, const char *filename, con
 	char buf[2048];
 	MD5_CTX ctx;
 	MD5_Init(&ctx);
-	while (!feof(f))
+	while (!is.eof())
 	{
-		size_t num = fread(buf, 1, sizeof(buf), f);
-		MD5_Update(&ctx, buf, num);
+		is.read(buf, sizeof(buf));
+		MD5_Update(&ctx, buf, (unsigned long) is.gcount());
 	}
 	unsigned char res[16];
 	MD5_Final(res, &ctx);
+	is.close();
 
 	std::stringstream ss;
 	for (int i = 0; i < sizeof(res); ++i)

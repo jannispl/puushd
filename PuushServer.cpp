@@ -2,6 +2,9 @@
 #include "PuushServer.h"
 #include "MPFDParser/Parser.h"
 #include <time.h>
+#ifndef WIN32
+#include <sys/stat.h>
+#endif
 
 PuushServer::PuushServer(Configuration *config, PuushDatabase *database)
 	: m_mongooseContext(NULL), m_randomDistribution(0, (10 + 26 + 26) - 1), m_randomGenerator(m_randomDevice()), m_config(config), m_database(database)
@@ -206,6 +209,20 @@ void PuushServer::handleFileUpload(mg_connection *conn, const mg_request_info *i
 
 	try
 	{
+#ifdef WIN32
+		DWORD attributes = GetFileAttributesA("files");
+		if (attributes == INVALID_FILE_ATTRIBUTES || !(attributes & FILE_ATTRIBUTE_DIRECTORY))
+		{
+			CreateDirectoryA("files", NULL);
+		}
+#else
+		struct stat st;
+		if (stat("files", &st) != 0 || (myStat.st_mode) & S_IFMT) != S_IFDIR))
+		{
+			mkdir("files");
+		}
+#endif
+
 		MPFD::Parser *POSTParser = new MPFD::Parser();
 		POSTParser->SetFilenameGenerator(&PuushServer::generateRandomFilename, this);
 		POSTParser->SetMaxCollectedDataLength(20 * 1024);
@@ -240,7 +257,7 @@ void PuushServer::handleFileUpload(mg_connection *conn, const mg_request_info *i
 			else
 			{
 				std::cout << "Got file field: [" << it->first << "], Filename: [" << it->second->GetFileName() << "]" << std::endl;
-				std::cout << " -> temp file saved at " << it->second->GetTempFileName() << std::endl;
+				std::cout << " -> temp file saved at " << it->second->GetTempFilename() << std::endl;
 			}
 		}*/
 
@@ -262,7 +279,7 @@ void PuushServer::handleFileUpload(mg_connection *conn, const mg_request_info *i
 			return;
 		}
 
-		std::string shortName = m_database->addFile(apikey_field->GetTextTypeContent().c_str(), file_field->GetFileName().c_str(), file_field->GetTempFileName().c_str(), md5hash_field->GetTextTypeContent().c_str());
+		std::string shortName = m_database->addFile(apikey_field->GetTextTypeContent().c_str(), file_field->GetFileName().c_str(), file_field->GetTempFilename().c_str(), md5hash_field->GetTextTypeContent().c_str());
 		
 		if (shortName.empty())
 		{

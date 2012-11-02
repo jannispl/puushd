@@ -175,7 +175,7 @@ std::string MPFD::Field::GetTextTypeContent() {
     }
 }
 
-std::string MPFD::Field::GetTempFileName() {
+std::string MPFD::Field::GetTempFilename() {
     if (type == 0) {
 	throw MPFD::Exception("Trying to get file temp name, but no type was set.");
     } else {

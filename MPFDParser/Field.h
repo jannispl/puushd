@@ -42,7 +42,7 @@ namespace MPFD {
         char * GetFileContent();
         unsigned long GetFileContentSize();
 
-        std::string GetTempFileName();
+        std::string GetTempFilename();
 
         // Text field operations
         std::string GetTextTypeContent();
