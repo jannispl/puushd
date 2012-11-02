@@ -49,10 +49,10 @@ private:
 
 	std::random_device m_randomDevice;
 	std::default_random_engine m_randomGenerator;
-#if __GNUC__ >= 4 && __GNUC_MINOR__ < 5
-	std::uniform_int<int> m_randomDistribution;
-#else
+#if defined(WIN32) || (defined(GCC_VERSION) && GCC_VERSION >= 40500)
 	std::uniform_int_distribution<int> m_randomDistribution;
+#else
+	std::uniform_int<int> m_randomDistribution;
 #endif
 };
 
