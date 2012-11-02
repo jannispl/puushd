@@ -192,7 +192,7 @@ void MPFD::Parser::_ParseHeaders(std::string headers) {
             Fields[ProcessingFieldName]->SetType(Field::FileType);
             Fields[ProcessingFieldName]->SetTempDir(TempDirForFileUpload);
             Fields[ProcessingFieldName]->SetUploadedFilesStorage(WhereToStoreUploadedFiles);
-			Fields[ProcessingFieldName]->SetFilenameGenerator(FilenameGenerator, FilenameGeneratorUserData);
+			Fields[ProcessingFieldName]->SetFilenameGenerator((void *)FilenameGenerator, FilenameGeneratorUserData);
 
             long filename_end_pos = headers.find("\"", filename_pos + 10);
             if (filename_end_pos == std::string::npos) {

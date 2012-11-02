@@ -8,8 +8,7 @@
 #include "targetver.h"
 
 #include <stdio.h>
-#include <tchar.h>
-
+#include <string.h>
 
 // TODO: reference additional headers your program requires here
 #include <iostream>
@@ -18,3 +17,7 @@
 #include <sstream>
 #include "mongoose.h"
 #include "sqlite3.h"
+
+#ifndef WIN32
+#define stricmp strcasecmp
+#endif

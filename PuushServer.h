@@ -6,6 +6,11 @@ class PuushServer;
 #include <random>
 #include "PuushDatabase.h"
 
+#ifndef WIN32
+#define uniform_int_distribution uniform_int
+namespace std { typedef minstd_rand0 default_random_engine; }
+#endif
+
 class PuushServer
 {
 public:

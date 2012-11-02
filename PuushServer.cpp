@@ -71,7 +71,7 @@ void *PuushServer::handleMongooseEvent(mg_event ev, mg_connection *conn)
 		const mg_request_info *info = mg_get_request_info(conn);
 
 		handleRequest(conn, info);
-		return "";
+		return (void *) "";
 	}
 	
 	return NULL;

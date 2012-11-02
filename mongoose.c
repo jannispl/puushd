@@ -1837,7 +1837,7 @@ static void remove_double_dots_and_double_slashes(char *ss) {
 #ifdef WIN32
   if (_strnicmp(s, "http://", 7) == 0)
 #else
-  if (strnicmp(s, "http://", 7) == 0)
+  if (strncasecmp(s, "http://", 7) == 0)
 #endif
   {
 	  s += 7;
