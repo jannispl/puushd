@@ -8,14 +8,7 @@ class PuushDatabase;
 #include <random>
 
 #ifndef WIN32
-#define uniform_int_distribution uniform_int
 namespace std { typedef minstd_rand0 default_random_engine; }
-#endif
-
-#ifdef __GNUC__
-#define GCC_VERSION (__GNUC__ * 10000 \
-                                   + __GNUC_MINOR__ * 100 \
-                                   + __GNUC_PATCHLEVEL__)
 #endif
 
 class PuushDatabase

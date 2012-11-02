@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 	}
 	
 #ifdef WIN32
-	if (argc >= 4 && stricmp(argv[1], "adduser") == 0)
+	if (argc >= 4 && _stricmp(argv[1], "adduser") == 0)
 #else
 	if (argc >= 4 && strcasecmp(argv[1], "adduser") == 0)
 #endif

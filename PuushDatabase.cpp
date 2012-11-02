@@ -135,7 +135,7 @@ std::string PuushDatabase::addFile(const char *apiKey, const char *filename, con
 	}
 
 #ifdef WIN32
-	if (stricmp(md5hash, ss.str().c_str()) != 0)
+	if (_stricmp(md5hash, ss.str().c_str()) != 0)
 #else
 	if (strcasecmp(md5hash, ss.str().c_str()) != 0)
 #endif
