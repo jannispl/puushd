@@ -20,9 +20,21 @@ bool PuushDatabase::load(const char *filename)
 		return false;
 	}
 
-	printf("init users '%s'\n", execute("CREATE TABLE IF NOT EXISTS users ('id' INTEGER PRIMARY KEY AUTOINCREMENT, 'username' VARCHAR(64), 'password' VARCHAR(64), 'apikey' VARCHAR(20))", NULL).c_str());
-	printf("init files '%s'\n", execute("CREATE TABLE IF NOT EXISTS files ('id' INTEGER PRIMARY KEY AUTOINCREMENT, 'filename' VARCHAR(256), 'path' VARCHAR(256), 'short' VARCHAR(16), 'md5hash' VARCHAR(32), 'time' DATETIME, 'user_id' INTEGER)", NULL).c_str());
-
+	// Initialize tables
+	std::string err = execute("CREATE TABLE IF NOT EXISTS users ('id' INTEGER PRIMARY KEY AUTOINCREMENT, 'username' VARCHAR(64), 'password' VARCHAR(64), 'apikey' VARCHAR(20))", NULL);
+	if (!err.empty())
+	{
+		std::cerr << "Database Error load: " << err << std::endl;
+		return false;
+	}
+	
+	err = execute("CREATE TABLE IF NOT EXISTS files ('id' INTEGER PRIMARY KEY AUTOINCREMENT, 'filename' VARCHAR(256), 'path' VARCHAR(256), 'short' VARCHAR(16), 'md5hash' VARCHAR(32), 'time' DATETIME, 'user_id' INTEGER)", NULL);
+	if (!err.empty())
+	{
+		std::cerr << "Database Error load: " << err << std::endl;
+		return false;
+	}
+	
 	return true;
 }
 
@@ -162,6 +174,8 @@ std::string PuushDatabase::addFile(const char *apiKey, const char *filename, con
 		std::cerr << "Database Error addFile: " << err << std::endl;
 		return "";
 	}
+	
+	std::cout << "File upload: user id " << userId << ", short '" << shortName << "', full '" << filename << "'" << std::endl;
 
 	return shortName;
 }

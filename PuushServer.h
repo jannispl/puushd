@@ -4,6 +4,7 @@ class PuushServer;
 #define _PUUSHSERVER_H
 
 #include <random>
+#include "Configuration.h"
 #include "PuushDatabase.h"
 
 #ifndef WIN32
@@ -14,7 +15,7 @@ namespace std { typedef minstd_rand0 default_random_engine; }
 class PuushServer
 {
 public:
-	PuushServer(PuushDatabase *database);
+	PuushServer(Configuration *config, PuushDatabase *database);
 	~PuushServer();
 
 	void start(int port);
@@ -37,7 +38,10 @@ private:
 	std::default_random_engine m_randomGenerator;
 	std::uniform_int_distribution<int> m_randomDistribution;
 
+	Configuration *m_config;
 	PuushDatabase *m_database;
+	
+	std::string m_puushUrl;
 };
 
 #endif

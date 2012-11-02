@@ -3,11 +3,12 @@
 #include "MPFDParser/Parser.h"
 #include <time.h>
 
-#define PUUSH_URL "http://www.mavedev.com:1200/"
-
-PuushServer::PuushServer(PuushDatabase *database)
-	: m_mongooseContext(NULL), m_randomDistribution(0, (10 + 26 + 26) - 1), m_randomGenerator(m_randomDevice()), m_database(database)
+PuushServer::PuushServer(Configuration *config, PuushDatabase *database)
+	: m_mongooseContext(NULL), m_randomDistribution(0, (10 + 26 + 26) - 1), m_randomGenerator(m_randomDevice()), m_config(config), m_database(database)
 {
+	m_puushUrl = config->getString("puushurl", "http://localhost:1200/");
+	
+	std::cout << "Using puush URL: " << m_puushUrl << "[short]" << std::endl;
 }
 
 PuushServer::~PuushServer()
@@ -227,7 +228,7 @@ void PuushServer::handleFileUpload(mg_connection *conn, const mg_request_info *i
 		// Now see what we have:
 		std::map<std::string, MPFD::Field *> fields = POSTParser->GetFieldsMap();
 
-		std::cout << "Have " << fields.size() << " fields" << std::endl;
+		/*std::cout << "Have " << fields.size() << " fields" << std::endl;
 
 		std::map<std::string, MPFD::Field *>::iterator it;
 		for (it = fields.begin(); it != fields.end();it++)
@@ -241,7 +242,7 @@ void PuushServer::handleFileUpload(mg_connection *conn, const mg_request_info *i
 				std::cout << "Got file field: [" << it->first << "], Filename: [" << it->second->GetFileName() << "]" << std::endl;
 				std::cout << " -> temp file saved at " << it->second->GetTempFileName() << std::endl;
 			}
-		}
+		}*/
 
 		std::map<std::string, MPFD::Field *>::iterator md5hash_idx = fields.find("c");
 		std::map<std::string, MPFD::Field *>::iterator file_idx = fields.find("f");
@@ -263,8 +264,6 @@ void PuushServer::handleFileUpload(mg_connection *conn, const mg_request_info *i
 
 		std::string shortName = m_database->addFile(apikey_field->GetTextTypeContent().c_str(), file_field->GetFileName().c_str(), file_field->GetTempFileName().c_str(), md5hash_field->GetTextTypeContent().c_str());
 		
-		printf("i'm here, short name %s\n", shortName.c_str());
-		
 		if (shortName.empty())
 		{
 			mg_response(conn, 200, "OK", "-1", "text/plain");
@@ -272,7 +271,7 @@ void PuushServer::handleFileUpload(mg_connection *conn, const mg_request_info *i
 		}
 
 		std::stringstream content;
-		content << "0," << PUUSH_URL << shortName << ",133337,12345" << std::endl;
+		content << "0," << m_puushUrl << shortName << ",133337,12345" << std::endl;
 		mg_response(conn, 200, "OK", content.str().c_str(), "text/plain");
 	}
 	catch (MPFD::Exception e)
