@@ -17,7 +17,3 @@
 #include <sstream>
 #include "mongoose.h"
 #include "sqlite3.h"
-
-#ifndef WIN32
-#define stricmp strcasecmp
-#endif

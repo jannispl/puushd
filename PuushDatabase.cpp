@@ -122,7 +122,11 @@ std::string PuushDatabase::addFile(const char *apiKey, const char *filename, con
 		ss << std::setfill('0') << std::setw(2) << std::hex << (int) res[i];
 	}
 
+#ifdef WIN32
 	if (stricmp(md5hash, ss.str().c_str()) != 0)
+#else
+	if (strcasecmp(md5hash, ss.str().c_str()) != 0)
+#endif
 	{
 		// md5 doesnt match
 		std::cerr << "MD5 didn't match for file upload" << std::endl;

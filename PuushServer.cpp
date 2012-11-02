@@ -3,13 +3,6 @@
 #include "MPFDParser/Parser.h"
 #include <time.h>
 
-#define HTML_FORM "<html><body>Upload example." \
-	"<form method=\"POST\" action=\"/api/up\" " \
-	"  enctype=\"multipart/form-data\">" \
-	"<input type=\"file\" name=\"file\" /> <br/>" \
-	"<input type=\"submit\" value=\"Upload\" />" \
-	"</form></body></html>"
-
 #define PUUSH_URL "http://www.mavedev.com:1200/"
 
 PuushServer::PuushServer(PuushDatabase *database)
@@ -107,21 +100,23 @@ void PuushServer::handleRequest(mg_connection *conn, const mg_request_info *info
 		request_uri = request_uri.substr(puush_url.length());
 	}
 
-	if (!tryServeFile(conn, info, request_uri))
+	if (request_uri == "/dl/puush-win.txt")
 	{
-		if (request_uri == "/api/auth")
-		{
-			handleAuthRequest(conn, info);
-		}
-		else if (request_uri == "/api/up")
-		{
-			handleFileUpload(conn, info);
-		}
-		else
-		{
-			// Show HTML form.
-			mg_response(conn, 200, "OK", HTML_FORM, "text/html");
-		}
+		mg_response(conn, 200, "OK", "81", "text/plain");
+	}
+	else if (request_uri == "/api/auth")
+	{
+		handleAuthRequest(conn, info);
+	}
+	else if (request_uri == "/api/up")
+	{
+		handleFileUpload(conn, info);
+	}
+	else if (!tryServeFile(conn, info, request_uri))
+	{
+		std::cerr << "[debug] other request: " << request_uri << std::endl;
+
+		mg_response(conn, 200, "OK", "I don't think there's anything I can do for you.", "text/html");
 	}
 }
 
@@ -130,7 +125,7 @@ void PuushServer::handleAuthRequest(mg_connection *conn, const mg_request_info *
 #ifdef WIN32
 	if (_stricmp(info->request_method, "POST") != 0)
 #else
-	if (stricmp(info->request_method, "POST") != 0)
+	if (strcasecmp(info->request_method, "POST") != 0)
 #endif
 	{
 		mg_response(conn, 400, "Bad request", "Bad request", "text/plain");
