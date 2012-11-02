@@ -24,6 +24,7 @@ public:
 	std::string authenticateUser(const char *username, const char *passwordOrApiKey);
 	std::string addFile(const char *apiKey, const char *filename, const char *path, const char *md5hash);
 	std::string lookupFile(const char *shortName, int &httpStatus);
+	int getUserCount();
 
 private:
 	struct QueryField

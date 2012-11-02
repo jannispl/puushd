@@ -207,6 +207,24 @@ std::string PuushDatabase::lookupFile(const char *shortName, int &httpStatus)
 	return field.value;
 }
 
+int PuushDatabase::getUserCount()
+{
+	QueryResult result;
+	std::string err = execute("SELECT COUNT(*) FROM `users`", &result);
+	if (!err.empty())
+	{
+		std::cerr << "Database Error getUserCount: " << err << std::endl;
+		return -1;
+	}
+
+	if (result.rows.size() == 0)
+	{
+		return 0;
+	}
+
+	return atoi(result.rows.front().at(0).value.c_str());
+}
+
 std::string PuushDatabase::execute(const char *query, PuushDatabase::QueryResult *destResult)
 {
 	if (m_database == NULL)

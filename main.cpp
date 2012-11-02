@@ -72,6 +72,17 @@ int main(int argc, char* argv[])
 	}
 	
 	std::cout << "Loaded database from " << databaseFile << std::endl;
+
+	int userCount = db.getUserCount();
+	if (userCount > 0)
+	{
+		std::cout << "There are " << userCount << " users in the database" << std::endl;
+	}
+	else if (userCount == 0)
+	{
+		std::cout << "Notice: The database currently contains no users." << std::endl;
+		std::cout << "Create one with './puushd adduser [email] [password]" << std::endl;
+	}
 	
 	int port = config.getInteger("port", 1200);
 	
