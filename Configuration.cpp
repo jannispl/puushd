@@ -2,6 +2,8 @@
 #include "Configuration.h"
 #include <fstream>
 #include <algorithm>
+#include <locale>
+#include <cctype>
 
 // damn, I'm so lazy
 // trim from start

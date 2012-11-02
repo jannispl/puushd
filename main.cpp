@@ -21,7 +21,11 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 	
+#ifdef WIN32
+	if (argc >= 4 && stricmp(argv[1], "adduser") == 0)
+#else
 	if (argc >= 4 && strcasecmp(argv[1], "adduser") == 0)
+#endif
 	{
 		std::cout << "Adding user '" << argv[2] << "'/'" << argv[3] << "'..." << std::endl;
 		std::string apiKey = db.addUser(argv[2], argv[3]);

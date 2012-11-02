@@ -38,7 +38,7 @@ private:
 	std::default_random_engine m_randomGenerator;
 #if __GNUC__ >= 4 && __GNUC_MINOR__ < 5
 	std::uniform_int<int> m_randomDistribution;
-#elif __GNUC__ >= 4 && __GNUC_MINOR__ >= 5
+#else
 	std::uniform_int_distribution<int> m_randomDistribution;
 #endif
 
