@@ -18,6 +18,10 @@
     <ClCompile Include="MPFDParser\Parser.cpp">
       <Filter>MPFDParser</Filter>
     </ClCompile>
+    <ClCompile Include="Page.cpp" />
+    <ClCompile Include="pages\ListUsersPage.cpp">
+      <Filter>pages</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Configuration.h" />
@@ -37,10 +41,17 @@
     <ClInclude Include="MPFDParser\Parser.h">
       <Filter>MPFDParser</Filter>
     </ClInclude>
+    <ClInclude Include="Page.h" />
+    <ClInclude Include="pages\ListUsersPage.h">
+      <Filter>pages</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPFDParser">
       <UniqueIdentifier>{2ed00a4b-4c57-4858-a8f9-a0da5ba600ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pages">
+      <UniqueIdentifier>{4ed77038-8da7-4f33-8ac9-8f291aa19c28}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

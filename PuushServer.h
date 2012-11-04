@@ -20,6 +20,8 @@ public:
 	void start(int port);
 	void stop();
 
+	PuushDatabase *getDatabase();
+
 private:
 	static void *forwardMongooseEvent(mg_event ev, mg_connection *conn);
 	void *handleMongooseEvent(mg_event ev, mg_connection *conn);

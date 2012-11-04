@@ -88,6 +88,8 @@
     <ClInclude Include="MPFDParser\Exception.h" />
     <ClInclude Include="MPFDParser\Field.h" />
     <ClInclude Include="MPFDParser\Parser.h" />
+    <ClInclude Include="Page.h" />
+    <ClInclude Include="pages\ListUsersPage.h" />
     <ClInclude Include="PuushDatabase.h" />
     <ClInclude Include="PuushServer.h" />
     <ClInclude Include="sqlite3.h" />
@@ -112,6 +114,8 @@
     <ClCompile Include="MPFDParser\Parser.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Page.cpp" />
+    <ClCompile Include="pages\ListUsersPage.cpp" />
     <ClCompile Include="PuushDatabase.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>

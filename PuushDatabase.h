@@ -26,6 +26,15 @@ public:
 	std::string lookupFile(const char *shortName, int &httpStatus);
 	int getUserCount();
 
+	struct User
+	{
+		int id;
+		std::string username;
+		std::string apiKey;
+	};
+	std::list<User> getUsers();
+	bool deleteUser(int id);
+
 private:
 	struct QueryField
 	{

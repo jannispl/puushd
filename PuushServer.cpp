@@ -5,6 +5,7 @@
 #ifndef WIN32
 #include <sys/stat.h>
 #endif
+#include "pages/ListUsersPage.h"
 
 PuushServer::PuushServer(Configuration *config, PuushDatabase *database)
 	: m_mongooseContext(NULL), m_randomDistribution(0, (10 + 26 + 26) - 1), m_randomGenerator(m_randomDevice()), m_config(config), m_database(database)
@@ -44,6 +45,11 @@ void PuushServer::stop()
 		mg_stop(m_mongooseContext);
 		m_mongooseContext = NULL;
 	}
+}
+
+PuushDatabase *PuushServer::getDatabase()
+{
+	return m_database;
 }
 
 void *PuushServer::forwardMongooseEvent(mg_event ev, mg_connection *conn)
@@ -104,15 +110,26 @@ void PuushServer::handleRequest(mg_connection *conn, const mg_request_info *info
 		request_uri = request_uri.substr(puush_url.length());
 	}
 
-	if (request_uri == "/dl/puush-win.txt")
+	if (request_uri.at(0) == '/')
+		request_uri = request_uri.substr(1);
+
+	std::string::size_type idx = request_uri.find('/');
+	std::string first_portion = idx == std::string::npos ? request_uri : request_uri.substr(0, idx);
+
+	if (request_uri == "dl/puush-win.txt")
 	{
 		mg_response(conn, 200, "OK", "81", "text/plain");
 	}
-	else if (request_uri == "/api/auth")
+	else if (first_portion == "listusers")
+	{
+		ListUsersPage page(this);
+		page.handleRequest(conn, info, request_uri);
+	}
+	else if (request_uri == "api/auth")
 	{
 		handleAuthRequest(conn, info);
 	}
-	else if (request_uri == "/api/up")
+	else if (request_uri == "api/up")
 	{
 		handleFileUpload(conn, info);
 	}

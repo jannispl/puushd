@@ -225,6 +225,47 @@ int PuushDatabase::getUserCount()
 	return atoi(result.rows.front().at(0).value.c_str());
 }
 
+std::list<PuushDatabase::User> PuushDatabase::getUsers()
+{
+	std::list<User> ret;
+
+	QueryResult result;
+	std::string err = execute("SELECT `id`, `username`, `apikey` FROM `users`", &result);
+	if (!err.empty())
+	{
+		std::cerr << "Database Error getUsers: " << err << std::endl;
+		return ret;
+	}
+
+	for (std::list<std::vector<QueryField> >::iterator i = result.rows.begin(); i != result.rows.end(); ++i)
+	{
+		std::vector<QueryField> fields = *i;
+		
+		User user;
+		user.id = atoi(fields[0].value.c_str());
+		user.username = fields[1].value;
+		user.apiKey = fields[2].value;
+		ret.push_back(user);
+	}
+
+	return ret;
+}
+
+bool PuushDatabase::deleteUser(int id)
+{
+	char *query = sqlite3_mprintf("DELETE FROM `users` WHERE `id` = '%d'", id);
+	std::string err = execute(query, NULL);
+	sqlite3_free(query);
+	if (!err.empty())
+	{
+		std::cerr << "Database Error deleteUser: " << err << std::endl;
+		return false;
+	}
+
+	int num_changes = sqlite3_changes(m_database);
+	return num_changes > 0;
+}
+
 std::string PuushDatabase::execute(const char *query, PuushDatabase::QueryResult *destResult)
 {
 	if (m_database == NULL)
