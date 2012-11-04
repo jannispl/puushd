@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 #include "ListUsersPage.h"
 
 ListUsersPage::ListUsersPage(PuushServer *server)
